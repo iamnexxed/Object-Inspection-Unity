@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 5f;                                   // Control the Speed of Player
     
     public float gravity = -9.81f;                             // Gravity of Earth
-
+    public float jumpHeight = 3f;
     public Transform groundCheck;                              // Tranform for getting the feet of player to check whether player is touching the ground
     public float groundDistance = 0.2f;                        // Height of Feet
     public LayerMask groundMask;                               // Check for which layers in the game are Ground
@@ -57,6 +57,11 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 move = transform.right * x + transform.forward * z;
         characterController.Move(move * speed * Time.deltaTime);
+
+        if(Input.GetButtonDown("Jump") && isGrounded)
+        {
+            velocity.y = Mathf.Sqrt(jumpHeight * (-2f) * gravity);
+        }
 
         velocity.y += gravity * Time.deltaTime;
         characterController.Move(velocity * Time.deltaTime);    // dy = g * t *t

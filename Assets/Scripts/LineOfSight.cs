@@ -1,10 +1,7 @@
 ﻿
-
 using UnityEngine.UI;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.LWRP;
 using UnityEngine.Rendering;
-using UnityEngine.Rendering.LWRP;
 using UnityEngine.Rendering.PostProcessing;
 using TMPro;
 
@@ -21,7 +18,7 @@ public class LineOfSight : MonoBehaviour
     public int backgroundLayerNumber = 10;
 
     // To be changed for different versions
-    public ForwardRendererData forwardRenderer;              // ForwardRenderer Data Asset   
+    // public ForwardRendererData forwardRenderer;              // ForwardRenderer Data Asset   
 
     public MouseLook mouse;                                  // To access the parameters of MouseLook Script
     RotateObject rotateObject;
@@ -37,29 +34,29 @@ public class LineOfSight : MonoBehaviour
     MeshRenderer grabbedObjectRenderer;
 
     // To be changed for different versions
-    RenderObjects objectToInspect;
+    // RenderObjects objectToInspect;
 
     // Start is called before the first frame update
     void Start()
     {
-        objectToInspect = (RenderObjects)forwardRenderer.rendererFeatures[0];
+        // objectToInspect = (RenderObjects)forwardRenderer.rendererFeatures[0];
         objectName.text = "";
 
         postProcessVolume.enabled = false;
 
-        if (objectToInspect.settings == null)
-        {
-            Debug.LogWarning("Foreground Object Renderer not found!");
-            return;
-        }
-        else
-        {
-            objectToInspect.settings.depthCompareFunction = CompareFunction.LessEqual;
-            objectToInspect.Create();
-            Debug.Log("Renderer connected! : " + objectToInspect.name);
+        //if (objectToInspect.settings == null)
+        //{
+        //    Debug.LogWarning("Foreground Object Renderer not found!");
+        //    return;
+        //}
+        //else
+        //{
+        //    // objectToInspect.settings.depthCompareFunction = CompareFunction.LessEqual;
+        //    objectToInspect.Create();
+        //    Debug.Log("Renderer connected! : " + objectToInspect.name);
 
-            // Set Mask for blur background shader to Nothing and create the Object
-        }
+        //    // Set Mask for blur background shader to Nothing and create the Object
+        //}
 
         Camera.main.transform.Rotate(Quaternion.identity.eulerAngles);
         isGrabbed = false;
@@ -80,7 +77,7 @@ public class LineOfSight : MonoBehaviour
                 objectName.text = vision.collider.name;
                 aimImage.sprite = focussedAim;
 
-                // Debug.Log("Raycast Hit : " + vision.collider.name);
+                Debug.Log("Raycast Hit : " + vision.collider.name);
 
                 if(Input.GetButtonDown("PickUp") && !isGrabbed)       // Rename the Input in Project Settings for LMB to PickUp
                 {
@@ -148,7 +145,7 @@ public class LineOfSight : MonoBehaviour
                 objectName.text = "";
                 aimImage.sprite = unFocussedAim;
 
-                // Debug.Log("Raycast has hit : " + vision.collider.name);
+                Debug.Log("Raycast has hit : " + vision.collider.name);
 
                 if (isGrabbed && Input.GetButtonDown("PutDown"))              // Rename the Input in Project Settings for RMB to PutDown
                 {
@@ -189,8 +186,8 @@ public class LineOfSight : MonoBehaviour
         postProcessVolume.enabled = !postProcessVolume.enabled;
 
         grabbedObject.gameObject.layer = foregroundLayerNumber;      // Set layer Foreground
-        objectToInspect.settings.depthCompareFunction = CompareFunction.Disabled;
-        objectToInspect.Create();
+        // objectToInspect.settings.depthCompareFunction = CompareFunction.Equal;
+        // objectToInspect.Create();
         // Debug.Log("Renderer setting changed! : " + objectToInspect.settings.depthCompareFunction.ToString());
 
         // Set Mask for blur background shader to Background and create the Object
@@ -207,8 +204,8 @@ public class LineOfSight : MonoBehaviour
         postProcessVolume.enabled = !postProcessVolume.enabled;
 
         grabbedObject.gameObject.layer = backgroundLayerNumber;  // Set layer Background
-        objectToInspect.settings.depthCompareFunction = CompareFunction.LessEqual;
-        objectToInspect.Create();
+        // objectToInspect.settings.depthCompareFunction = CompareFunction.LessEqual;
+        // objectToInspect.Create();
         // Debug.Log("Renderer setting changed! : " + objectToInspect.settings.depthCompareFunction.ToString());
 
         // Set Mask for blur background shader to Nothing and create the Object

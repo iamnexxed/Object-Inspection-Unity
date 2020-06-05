@@ -5,13 +5,16 @@ public class MouseLook : MonoBehaviour
 {
     public float mouseSensitivity = 100f;         // Mouse Sensitivity 
     public Transform playerBody;                  // Get Player Body Transform
-
     public float smoothAmount = 400f;             // Camera Smoothness
 
     float xRotation = 0f;
 
     bool canLook;
 
+    float yaw;
+    float pitch;
+    float mouseX;
+    float mouseY;
     
     void Start()
     {
@@ -22,20 +25,24 @@ public class MouseLook : MonoBehaviour
         transform.localRotation = Quaternion.identity;
     }
 
+    void Update()
+    {
+        if (!canLook)
+            return;
+    
+        yaw = Input.GetAxis("Mouse X");
+        pitch = Input.GetAxis("Mouse Y");
+
+        mouseX = yaw * mouseSensitivity * Time.deltaTime;
+        mouseY = pitch * mouseSensitivity * Time.deltaTime;
+
+    }
+
    
     void LateUpdate()
     {
         if (!canLook)
             return;
-
-        // To be done inside the Update() method
-        float yaw = Input.GetAxis("Mouse X");
-        float pitch = Input.GetAxis("Mouse Y");
-
-        float mouseX = yaw * mouseSensitivity * Time.deltaTime;
-        float mouseY = pitch * mouseSensitivity * Time.deltaTime;
-        // end Update()
-      
 
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90, 90);
